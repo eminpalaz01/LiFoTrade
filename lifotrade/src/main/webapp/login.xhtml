@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Giris</title>
+	<style>
+body {
+	background-image: url('bg-img.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.centered-login-form {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.bordered-panel-grid {
+	border: 1px solid #A5AAB0;
+	border-radius: 8px;
+	padding: 10px;
+}
+
+.center-component {
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
+</h:head>
+
+<h:body>
+	<h:form id="parent">
+		<p:growl id="growl" showDetail="true" life="2000" />
+		<p:panel styleClass="centered-login-form bordered-panel-grid">
+			<h:panelGroup style="text-align: center">
+				<p:panelGrid id="headerContainer" columns="1"
+					styleClass="ui-noborder" cellpadding="5"
+					style="margin: auto; margin-top: 5%">
+					<img src="logo-color.png" width="300px" style="margin-left: 10px"></img>
+					<p:outputLabel value="LiFoTrade"
+						style="color:black; font-size: 36px; font-weight: bold;" />
+					<p:outputLabel value="Likit Fon Alım Satım Platformu"
+						style="color:black; font-size: 20px; font-weight: bold;" />
+				</p:panelGrid>
+			</h:panelGroup>
+			<h:panelGrid columns="2" cellpadding="4">
+				<h:outputText value="Kullanıcı Adı: "
+					style="color: black; font-size: 18px; font-weight: bold;" />
+				<h:inputText value="#{loginBean.username}"
+					style="margin-left:15px; border-color: black; color: black; border-width: 2px; background: transparent; height:30px; width: 200px;" />
+
+				<h:outputText value="Şifre: "
+					style="color: black; font-size: 18px; font-weight: bold;" />
+				<p:password id="toggle" value="#{loginBean.password}"
+					style="margin-left:15px; border-color: black; color: black; 
+				border-width: 2px; background: transparent; height:30px; width: 200px;"
+					toggleMask="true" redisplay="true" />
+
+				<p:commandLink onclick="PF('modalDialog').show()"
+					style="font-size: 12px; font-weight: bold;" value="Şifremi Unuttum" />
+				<p:commandButton value="Giriş Yap" action="#{loginBean.login()}"
+					update="growl" style="font-weight: bold; margin-left:40px;" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+	
+	<p:dialog id="myDialog" header="Şifremi Unuttum" widgetVar="modalDialog"
+		resizable="false">
+		<h:form>
+			<h:outputText value="E-posta: "
+				style="color: black; font-size: 18px; font-weight: bold;" />
+			<h:inputText value="#{loginBean.forgotPasswordEmail}"
+				style="margin-left:15px; border-color: black; color: black; 
+							border-width: 2px; background: transparent; height:30px; width: 200px;" />
+			<div style="margin-top:30px; margin-left:150px">
+				<p:commandButton value="Şifre Sıfırla" update="parent:growl"
+					action="#{loginBean.forgotPassword()}"
+					style="font-weight: bold; margin-left:40px;" />
+			</div>
+
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

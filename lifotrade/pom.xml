@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.infina</groupId>
+  <artifactId>lifotrade</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>lifotrade</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+
+    <servlet.version>3.1.0</servlet.version>
+    <jsf.version>2.2.15</jsf.version>
+    <primefaces.version>13.0.0</primefaces.version>
+
+    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+    <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+  </properties>
+
+  <dependencies> 
+	<!-- Weld için gerekli bağımlılık -->
+    <dependency>
+        <groupId>org.jboss.weld.servlet</groupId>
+        <artifactId>weld-servlet</artifactId>
+        <version>2.4.8.Final</version>
+    </dependency> 
+	<dependency>	
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.12.4</version>
+    </dependency> 
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>2.15.2</version>
+    </dependency>
+	<!-- Model Mapper -->
+    <dependency>
+      <groupId>org.modelmapper</groupId>
+      <artifactId>modelmapper</artifactId>
+      <version>2.4.3</version>
+    </dependency> 
+    <dependency>
+       <groupId>javax.validation</groupId>
+       <artifactId>validation-api</artifactId>
+       <version>2.0.1.Final</version>
+    </dependency>
+    <!-- Servlet -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- JSF -->
+    <dependency>
+      <groupId>com.sun.faces</groupId>
+      <artifactId>jsf-api</artifactId>
+      <version>${jsf.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.faces</groupId>
+      <artifactId>jsf-impl</artifactId>
+      <version>${jsf.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- PrimeFaces -->
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>${primefaces.version}</version>
+    <!-- Apache http client -->  
+    </dependency>
+      <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.13</version>
+    </dependency>
+    <!-- Lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.22</version> <!-- Güncel sürümü kontrol edin -->
+      <scope>provided</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv -->
+    <dependency>
+	  <groupId>io.github.cdimascio</groupId>
+	  <artifactId>java-dotenv</artifactId>
+	  <version>5.2.2</version>
+	</dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <!-- tomcat7-maven-plugin   command: mvn tomcat7:run   --> 
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>${tomcat7-maven-plugin.version}</version>
+        <configuration>
+          <port>9090</port>
+          <path>/lifotrade</path>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

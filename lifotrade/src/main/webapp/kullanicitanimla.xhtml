@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>LiFoTrade-Anasayfa</title>
+	<style>
+#content {
+	transition: margin-left 0.3s ease-in-out;
+	/* İçerik geçişi animasyonlu */
+	padding: 20px;
+}
+
+.container {
+	width: 70%; /* Genişlik */
+	max-width: 1200px; /* Maksimum genişlik */
+	margin: 10px auto 0px auto; /* Merkezlemek için otomatik marj */
+	padding: 20px; /* İçeriğe boşluk bırakma */
+}
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	background-color: #000; /* Siyah arka plan */
+	color: white; /* Beyaz metin rengi */
+}
+
+body {
+	background-image: url('bg-img.jpg');
+	background-color: rgba(255, 255, 255, 0.7);
+	/* Beyaz renk katmanı (0.5 saydamlık) */
+	background-blend-mode: overlay; /* Katmanları birleştirme modu */
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-blend-mode: overlay; /* Katmanları birleştirme modu */
+	background-size: cover;
+}
+
+.menu-items {
+	flex-grow: 1;
+}
+
+.settings-and-logout {
+	display: flex;
+	align-items: center;
+}
+
+.settings-icon {
+	margin-right: 10px;
+}
+
+.center-component {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bordered-panel-grid {
+	border: 1px solid #ccc;
+	padding: 20px;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+}
+
+.input-label {
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+	margin-right: 10px;
+	font-weight: bold;
+}
+
+.input-field {
+	width: 300px;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.error-message {
+	color: red;
+}
+
+.submit-button {
+	display: inline-block;
+	background-color: #007bff;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.select-box {
+	height: 45px;
+	width: 200px;
+}
+</style>
+</h:head>
+
+<h:body>
+	<p:growl id="growl" showDetail="true" life="5000" />
+
+	<p:outputLabel value="Bu sayfaya erişemezsiniz."
+		rendered="#{not userBean.isLoggedIn()}" />
+	<h:panelGroup rendered="#{userBean.isLoggedIn()}">
+		<div>
+			<div>
+				<p:menubar style="background-color: black">
+					<p:menuitem icon="pi pi-align-justifypi pi-align-justify"
+						onclick="PF('sidebar').toggle()" />
+					<p:divider layout="vertical" />
+
+					<p:submenu icon="pi pi-cog">
+						<p:submenu label="Hesap" icon="pi pi-user">
+							<p:menuitem value="Şifre Değiştir" outcome="sifredegistir.xhtml" />
+						</p:submenu>
+						<p:menuitem value="Çıkış Yap" icon="pi pi-sign-out"
+							style="margin-right:5px;" action="#{homeBean.exit()}" />
+					</p:submenu>
+					<p:divider layout="vertical" />
+					<p:menuitem disabled="true" style="color: white; margin-left:10px;"
+						value="#{userBean.employeeDto.name}" />
+						<p:menuitem icon="pi pi-calendar"
+						style="color: white; margin-left:10px;" value="Gün Değiştir"
+						update="growl" action="#{homeBean.dayUpdate()}" />
+				</p:menubar>
+			</div>
+
+			<div class="sidebar">
+				<!-- Sidebar içeriği -->
+				<p:sidebar widgetVar="sidebar"
+					style="text-align:center; overflow-y: auto;"
+					onShow="onSidebarShow()" onHide="onSidebarHide()">
+					<div>
+						<a href="home.xhtml"> <img src="logo-color.png" width="200px"
+							onclick="login?faces-redirect=true"
+							style="margin-left: 30px; margin-top: 50px; margin-bottom: 10px; padding-bottom: 15px; border-bottom: 1px black solid;"></img>
+						</a>
+					</div>
+					<h:outputText value="Likit Fon Alım Satım Uygulaması"
+						style="font-size: 22px;" />
+					<p:panelMenu styleClass="custom-panel-menu"
+						style="margin-top:40px;">
+						<p:submenu label="Kullanıcı" style="text-align:left;">
+							<p:menuitem value="Kullanıcı Tanımla" style="padding-left:50px;"
+								outcome="kullanicitanimla" />
+							<p:menuitem value="Kullanıcı Güncelle" style="padding-left:50px;"
+								outcome="kullaniciguncelle" />
+						</p:submenu>
+						<p:submenu label="Müşteri" style="text-align:left;">
+							<p:submenu label="Bireysel"
+								style="text-align:left; padding-left:20px;">
+								<p:menuitem value="Bireysel Müşteri Tanımla"
+									outcome="bireyselmusteritanimla" style="padding-left:50px;" />
+								<p:menuitem value="Bireysel Müşteri Güncelle"
+									outcome="bireyselmusteriguncelle" style="padding-left:50px;" />
+							</p:submenu>
+							<p:submenu label="Kurumsal"
+								style="text-align:left; padding-left:20px;">
+								<p:menuitem value="Kurumsal Müşteri Tanımla"
+									outcome="kurumsalmusteritanimla" style="padding-left:50px;" />
+								<p:menuitem value="Kurumsal Müşteri Güncelle"
+									outcome="kurumsalmusteriguncelle" style="padding-left:50px;" />
+							</p:submenu>
+						</p:submenu>
+						<p:submenu label="Hesap" style="text-align:left;">
+							<p:menuitem value="Hesap Tanımla" style="padding-left:50px;"
+								outcome="hesaptanimla" />
+							<p:menuitem value="Hesap Güncelle" style="padding-left:50px;"
+								outcome="hesapguncelle" />
+						</p:submenu>
+						<p:submenu label="Havale/Provizyon" style="text-align:left;">
+							<p:menuitem value="İşlem Tanımla" style="padding-left:50px;"
+								outcome="havaleprovizyontanimla" />
+							<p:menuitem value="Havale/Provizyon İşlemleri"
+								style="padding-left:50px;" outcome="havaleprovizyonislemler" />
+						</p:submenu>
+						<p:submenu label="Fon" style="text-align:left;">
+							<p:menuitem value="Fon Tanımla" style="padding-left:50px;"
+								outcome="fontanimla" />
+							<p:menuitem value="Fon Güncelle" style="padding-left:50px;"
+								outcome="fonguncelle" />
+							<p:menuitem value="Fon Fiyat Güncelle" style="padding-left:50px;"
+								outcome="fonfiyatguncelle" />
+						</p:submenu>
+						<p:submenu label="Fon Alım/Satım" style="text-align:left;">
+							<p:menuitem value="İşlem Tanımla" style="padding-left:50px;"
+								outcome="fonalimsatimtanimla" />
+							<p:menuitem value="Fon Alım/Satım İşlemleri"
+								style="padding-left:50px;" outcome="fonalimsatimislemler" />
+						</p:submenu>
+					</p:panelMenu>
+				</p:sidebar>
+			</div>
+			<h:form>
+				<div id="content">
+					<div class="container">
+						<p:panel styleClass="centered-login-form bordered-panel-grid">
+							<div class="container">
+								<h:outputText value="Kullanıcı Tanımla"
+									style="font-size: 24px; font-weight: bold; color: #333; text-align: center; margin-top: 20px;" />
+
+								<h:panelGrid columns="2" cellpadding="4"
+									style="margin-top:20px;">
+
+									<h:outputText value="Adı:"
+										style="color: black; font-size: 18px; font-weight: bold;" />
+									<h:inputText value="#{kullaniciTanimla.name}"
+										style=" border-color: black; color: black; border-width: 2px; background: transparent; height:30px; width: 200px;" />
+
+									<h:outputText value="Soyadı:"
+										style="color: black; font-size: 18px; font-weight: bold;" />
+									<h:inputText id="password" value="#{kullaniciTanimla.surname}"
+										style="border-color: black; color: black; border-width: 2px; background: transparent; height:30px; width: 200px;" />
+
+									<h:outputText value="Kullanıcı Adı:"
+										style="color: black; font-size: 18px; font-weight: bold;" />
+									<h:inputText value="#{kullaniciTanimla.username}"
+										style=" border-color: black; color: black; border-width: 2px; background: transparent; height:30px; width: 200px;" />
+
+									<h:outputText value="E-posta:"
+										style="color: black; font-size: 18px; font-weight: bold;" />
+									<h:inputText value="#{kullaniciTanimla.email}"
+										style=" border-color: black; color: black; border-width: 2px; background: transparent; height:30px; width: 200px;" />
+
+									<h:outputText value="Yetki:"
+										style="color: black; font-size: 18px; font-weight: bold;" />
+									<p:selectOneMenu id="selectBox"
+										style=" border-color: black; border-width: 2px;"
+										value="#{kullaniciTanimla.role}">
+										<p:ajax update="@this" process="@this" />
+										<f:selectItem itemLabel="Seçiniz.."
+											itemValue="#{kullaniciTanimla.role}" noSelectionOption="true" />
+										<f:selectItem itemLabel="Kullanıcı" itemValue="EMPLOYEE" />
+										<f:selectItem itemLabel="Yönetici" itemValue="ADMIN" />
+									</p:selectOneMenu>
+
+									<h:outputText value="Ünvan:"
+										style="color: black; font-size: 18px; font-weight: bold;" />
+									<h:inputText value="#{kullaniciTanimla.title}"
+										style=" border-color: black; color: black; border-width: 2px; background: transparent; height:30px; width: 200px;" />
+
+									<h:outputText value="Şifre:"
+										style="color: black; font-size: 18px; font-weight: bold;" />
+									<h:inputText value="#{kullaniciTanimla.password}"
+										style=" border-color: black; color: black; border-width: 2px; background: transparent; height:30px; width: 200px;" />
+
+									<p:commandButton value="Kaydet"
+										action="#{kullaniciTanimla.userSave()}" update="growl"
+										style="font-weight: bold; margin-left:40px; margin-top:20px;" />
+								</h:panelGrid>
+							</div>
+
+						</p:panel>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</h:panelGroup>
+
+	<script>
+    PF('sidebar').show();
+    
+    function onSidebarShow() {
+        var content = document.getElementById("content");      
+            content.style.marginLeft = "310px";          
+    }
+    function onSidebarHide() {
+    	var content = document.getElementById("content");      
+        content.style.marginLeft = "40px";
+    }
+    
+    </script>
+
+</h:body>
+</html>
