@@ -15,7 +15,7 @@ import com.infina.lifotradeapi.service.abstracts.EmailSendService;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class EmailSendManager implements EmailSendService {
 	private final JavaMailSender mailSender;

@@ -20,14 +20,16 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @SpringBootApplication
+@EnableTransactionManagement
 @OpenAPI30
 public class LifoTradeApiApplication {
 	
 	public static void main(String[] args) {
-		Dotenv.configure().directory("src/main/resources").systemProperties().load();
+		Dotenv.configure().directory("lifotradeapi/src/main/resources").systemProperties().load();
 		SpringApplication.run(LifoTradeApiApplication.class, args);
         		
 	}
