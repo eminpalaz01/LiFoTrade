@@ -59,6 +59,7 @@ tmp/
 local.properties
 .loadpath
 .factorypath
+RemoteSystemsTempFiles
 
 ##############################
 ## NetBeans
